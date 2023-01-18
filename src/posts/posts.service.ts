@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Request } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { AddPostDto } from './dto/add-post.dto';
 import { DeletePostDto } from './dto/delete-post.dto';
@@ -25,10 +25,11 @@ export class PostsService {
     return posts;
   }
 
-  async addPost(dto: AddPostDto) {
+  async addPost(dto: AddPostDto, req: Request) {
+    const { user } = req;
     try {
       const post = await this.prisma.posts.create({
-        data: { ...dto },
+        data: { ...dto, userId: user.id },
         include: {
           Users: {
             select: { id: true, firstName: true, lastName: true },
@@ -47,11 +48,12 @@ export class PostsService {
     }
   }
 
-  async editPost(dto: EditPostDto) {
+  async editPost(dto: EditPostDto, req: Request) {
+    const { user } = req;
     try {
       const post = await this.prisma.posts.update({
-        where: { id: dto.id },
-        data: { title: dto.title, text: dto.text, userId: dto.userId },
+        where: { id: dto.idEdit, userId: user.id },
+        data: { title: dto.titleEdit, text: dto.textEdit },
       });
       return post;
     } catch (error) {
@@ -59,10 +61,11 @@ export class PostsService {
     }
   }
 
-  async deletePost(dto: DeletePostDto) {
+  async deletePost(dto: DeletePostDto, req: Request) {
+    const { user } = req;
     try {
       const post = await this.prisma.posts.delete({
-        where: { ...dto },
+        where: { ...dto, userId: user.id },
       });
       return post;
     } catch (error) {

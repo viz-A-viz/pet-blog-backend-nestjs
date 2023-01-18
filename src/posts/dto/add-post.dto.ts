@@ -6,7 +6,4 @@ export class AddPostDto {
 
   @ApiProperty()
   text: string;
-
-  @ApiProperty()
-  userId: number;
 }

@@ -2,14 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class EditPostDto {
   @ApiProperty()
-  id: number;
+  idEdit: number;
 
   @ApiProperty()
-  title: string;
+  titleEdit: string;
 
   @ApiProperty()
-  text: string;
-
-  @ApiProperty()
-  userId: number;
+  textEdit: string;
 }
