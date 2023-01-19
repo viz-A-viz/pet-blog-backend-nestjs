@@ -7,7 +7,7 @@ import { UnlikePostDto } from './dto/unlike-post.dto';
 export class LikesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async likePost(dto: LikePostDto, req: Request) {
+  async likePostOrComment(dto: LikePostDto, req: Request) {
     const { user } = req;
     try {
       await this.prisma.likes.create({ data: { ...dto, userId: user.id } });
@@ -17,7 +17,7 @@ export class LikesService {
     }
   }
 
-  async unlikePost(dto: UnlikePostDto, req: Request) {
+  async unlikePostOrComment(dto: UnlikePostDto, req: Request) {
     const { user } = req;
     try {
       const like = await this.prisma.likes.findFirst({

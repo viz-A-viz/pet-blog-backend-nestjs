@@ -23,13 +23,13 @@ export class LikesController {
   @ApiResponse({ status: 200, type: String })
   @Post()
   likePost(@Body() dto: LikePostDto, @Req() req: Request) {
-    return this.likesService.likePost(dto, req);
+    return this.likesService.likePostOrComment(dto, req);
   }
 
   @ApiOperation({ summary: 'Unlike post' })
   @ApiResponse({ status: 200, type: String })
   @Delete()
   unlikePost(@Body() dto: UnlikePostDto, @Req() req: Request) {
-    return this.likesService.unlikePost(dto, req);
+    return this.likesService.unlikePostOrComment(dto, req);
   }
 }

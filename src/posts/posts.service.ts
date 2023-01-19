@@ -9,20 +9,24 @@ export class PostsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAllPosts() {
-    const posts = await this.prisma.posts.findMany({
-      include: {
-        Users: {
-          select: { id: true, firstName: true, lastName: true },
+    try {
+      const posts = await this.prisma.posts.findMany({
+        include: {
+          Users: {
+            select: { id: true, firstName: true, lastName: true },
+          },
+          _count: {
+            select: { Likes: true },
+          },
+          Likes: {
+            select: { userId: true },
+          },
         },
-        _count: {
-          select: { Likes: true },
-        },
-        Likes: {
-          select: { userId: true },
-        },
-      },
-    });
-    return posts;
+      });
+      return posts;
+    } catch (error) {
+      return error.message;
+    }
   }
 
   async addPost(dto: AddPostDto, req: Request) {

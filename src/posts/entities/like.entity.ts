@@ -8,6 +8,7 @@ export class LikesEntity implements Likes {
   userId: number;
 
   postId: number;
+  commentId: number;
   createdAt: Date;
   updatedAt: Date;
 }
