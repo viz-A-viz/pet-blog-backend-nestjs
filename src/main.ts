@@ -6,10 +6,7 @@ async function start() {
   const PORT = process.env.PORT || 5050;
   const app = await NestFactory.create(AppModule);
 
-  const accessList = [
-    'https://solo-project-blog-front.onrender.com',
-    'http://localhost:3000',
-  ];
+  const accessList = process.env.ORIGIN?.split(',') || 'http://localhost:3000';
 
   app.enableCors({
     origin: accessList,
